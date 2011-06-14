@@ -7,6 +7,7 @@ Send log by email using one of configured `EmailConfig` in `app/Config/email.php
 Add to app bootstrap:
 
 ``` php
+<?php
 CakePlugin::load('EmailLog');
 App::uses('CakeLog', 'Log');
 CakeLog::config('email', array(
