@@ -1,4 +1,4 @@
-# CakePHP Email Storage stream for Logging
+# Email Storage stream for Logging 
 
 Send log by email using one of configured EmailConfig (app/Config/email.php)
 
@@ -23,8 +23,13 @@ Cake will autoconfigure file log, but only if there's no already configured hand
 CakeLog::config('file', array('engine' => 'FileLog'));
 </code></pre>
 
-Test it now:
+Test it now in controller:
 
 <pre><code>
 CakeLog::write('error', 'Missing key: '. print_r($this->request, true));
 </code></pre>
+
+## Requirements
+
+    PHP version: PHP 5.2+
+    CakePHP version: Cakephp 2.x
