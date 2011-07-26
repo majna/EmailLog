@@ -1,6 +1,7 @@
 <?php
-
 App::uses('CakeLogInterface', 'Log');
+App::uses('String', 'Utility');
+App::uses('CakeEmail', 'Network/Email');
 
 /**
  *CakePHP Email Storage stream for Logging
@@ -22,11 +23,11 @@ App::uses('CakeLogInterface', 'Log');
 class EmailLog implements CakeLogInterface {
 
 	/**
-	 * Options for email log writer
+	 * Default options for logger
 	 * 
-	 * emailConfig - one of configured EmailConfig. See app/Config/email.php
-	 * subjectFormat - email subject format using available params
-	 * logTypes - list of log types to send by email (all by default) or array of log types like 'error', 'warrning'. 'info'
+	 * - emailConfig - One of configured EmailConfig. See app/Config/email.php.
+	 * - subjectFormat - Email subject format using available params.
+	 * - logTypes - List of log types to send by email (all by default) or array of log types like 'error', 'warrning'. 'info'.
 	 * @var array
 	 */
 	protected $_options = array(
@@ -36,13 +37,10 @@ class EmailLog implements CakeLogInterface {
 	);
 
 	/**
-	 * Constructs a new File Logger.
 	 * 
-	 * Options
-	 *
-	 * - `path` the path to save logs on.
-	 *
-	 * @param array $options Options for the FileLog, see above.
+	 * Merge options
+	 * 
+	 * @param array $options Options for logger
 	 * @return void
 	 */
 	function __construct($options = array()) {
@@ -67,12 +65,10 @@ class EmailLog implements CakeLogInterface {
 			'host' => env('SERVER_NAME'),
 		);
 
-		App::uses('String', 'Utility');
 		$subject = String::insert($this->_options['subjectFormat'], $params);
-
+		
 		try {
-			App::uses('CakeEmail', 'Network/Email');
-			return CakeEmail::deliver(null, $subject, $message, $this->_options['emailConfig']);
+			CakeEmail::deliver(null, $subject, $message, $this->_options['emailConfig']);
 		} catch (SocketException $e) {
 			return false;
 		}
